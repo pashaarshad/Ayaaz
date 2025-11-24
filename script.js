@@ -1,5 +1,33 @@
 // Language switcher functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Background Music Auto-play Handler
+    const bgMusic = document.getElementById('bgMusic');
+    
+    // Function to play music
+    function playMusic() {
+        if (bgMusic) {
+            bgMusic.play().catch(function(error) {
+                console.log('Autoplay was prevented. Music will play on user interaction.');
+            });
+        }
+    }
+    
+    // Try to play immediately
+    playMusic();
+    
+    // Retry on any user interaction (click, touch, scroll)
+    const enableMusic = function() {
+        playMusic();
+        // Remove listeners after first successful play
+        document.removeEventListener('click', enableMusic);
+        document.removeEventListener('touchstart', enableMusic);
+        document.removeEventListener('scroll', enableMusic);
+    };
+    
+    document.addEventListener('click', enableMusic);
+    document.addEventListener('touchstart', enableMusic);
+    document.addEventListener('scroll', enableMusic);
+
     const langButtons = document.querySelectorAll('.lang-btn');
     const contentSections = document.querySelectorAll('.content-section');
 
